@@ -1,6 +1,6 @@
 {% extends "tethys_apps/app_base.html" %}
 
-{% load staticfiles %}
+{% load tethys_gizmos staticfiles %}
 
 {% block title %}{{ tethys_app.name }}{% endblock %}
 
@@ -14,15 +14,17 @@
 
 {% block app_navigation_items %}
   <li class="title">App Navigation</li>
-  <li class="active"><a href="">Home</a></li>
-  <li><a href="">Jobs</a></li>
-  <li><a href="">Results</a></li>
-  <li class="title">Steps</li>
-  <li><a href="">1. The First Step</a></li>
-  <li><a href="">2. The Second Step</a></li>
-  <li><a href="">3. The Third Step</a></li>
-  <li class="separator"></li>
-  <li><a href="">Get Started</a></li>
+  <p> <b>Select Product:</b> </p>
+  {% gizmo product_selection %}
+  <p> <b>Start Date:</b> </p>
+  {% gizmo time_start %}
+  <p> <b>End Date:</b> </p>
+  {% gizmo time_end %}
+  <br>
+  {% gizmo update_button %}
+  <br>
+  <br>
+  {% gizmo timeseries_button %}
 {% endblock %}
 
 {% block app_content %}

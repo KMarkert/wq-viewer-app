@@ -8,7 +8,7 @@ class WqViewer(TethysAppBase):
 
     name = 'WQ Viewer'
     index = 'wq_viewer:home'
-    icon = 'wq_viewer/images/icon.gif'
+    icon = 'wq_viewer/images/wq-icon.png'
     package = 'wq_viewer'
     root_url = 'wq-viewer'
     color = '#2c3e50'

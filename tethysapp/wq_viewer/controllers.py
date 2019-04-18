@@ -1,74 +1,76 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from tethys_sdk.gizmos import Button
+from tethys_sdk.gizmos import Button, DatePicker, SelectInput
 
-@login_required()
+import json
+
+# @login_required()
 def home(request):
     """
     Controller for the app home page.
     """
-    save_button = Button(
-        display_text='',
-        name='save-button',
-        icon='glyphicon glyphicon-floppy-disk',
+
+    product_selection = SelectInput(
+        # display_text='Select precipitation product:',
+        name='product_selection',
+        multiple=False,
+        options=[('Trophic State Index', 'tsi'),
+                 ('Chlorophyll-a', 'chla'),
+                 ('Secchi Depth', 'sd')],
+        initial=['Trophic State Index'],
+        select2_options={'placeholder': 'Select a product',
+                         'allowClear': False}
+    )
+
+    update_button = Button(
+        display_text='Update Map',
+        name='update-button',
+        icon='glyphicon glyphicon-refresh',
         style='success',
-        attributes={
-            'data-toggle':'tooltip',
-            'data-placement':'top',
-            'title':'Save'
-        }
     )
 
-    edit_button = Button(
-        display_text='',
-        name='edit-button',
-        icon='glyphicon glyphicon-edit',
-        style='warning',
-        attributes={
-            'data-toggle':'tooltip',
-            'data-placement':'top',
-            'title':'Edit'
-        }
+    timeseries_button = Button(
+        display_text='Get Time Series',
+        name='timeseries-button',
+        icon='glyphicon glyphicon-signal',
+        style='success',
     )
 
-    remove_button = Button(
-        display_text='',
-        name='remove-button',
-        icon='glyphicon glyphicon-remove',
-        style='danger',
-        attributes={
-            'data-toggle':'tooltip',
-            'data-placement':'top',
-            'title':'Remove'
-        }
+    time_start = DatePicker(
+        name='time_start',
+        # display_text='Start Date',
+        autoclose=True,
+        format='yyyy-mm-dd',
+        start_view='decade',
+        today_button=True,
+        initial='2015-08-03'
     )
 
-    previous_button = Button(
-        display_text='Previous',
-        name='previous-button',
-        attributes={
-            'data-toggle':'tooltip',
-            'data-placement':'top',
-            'title':'Previous'
-        }
+    time_end = DatePicker(
+        name='time_end',
+        # display_text='End Date',
+        autoclose=True,
+        format='yyyy-mm-dd',
+        start_view='decade',
+        today_button=True,
+        initial='2015-08-05'
     )
 
-    next_button = Button(
-        display_text='Next',
-        name='next-button',
-        attributes={
-            'data-toggle':'tooltip',
-            'data-placement':'top',
-            'title':'Next'
-        }
-    )
+    # result = myProcess(time_start['initial'],time_end['initial']).getChlMap()
+    #
+    # mapid,token = str(result['mapid']),str(result['token'])
+    # print(mapid,token)
+
+    # chla_layer = tile_url_template.format(**map_id)
 
     context = {
-        'save_button': save_button,
-        'edit_button': edit_button,
-        'remove_button': remove_button,
-        'previous_button': previous_button,
-        'next_button': next_button
+        # 'chla_mapid': mapid,
+        # 'chla_token': token,
+        'product_selection': product_selection,
+        'update_button': update_button,
+        'timeseries_button': timeseries_button,
+        'time_start': time_start,
+        'time_end': time_end,
     }
 
     return render(request, 'wq_viewer/home.html', context)
