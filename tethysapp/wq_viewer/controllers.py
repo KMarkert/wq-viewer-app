@@ -10,23 +10,35 @@ def home(request):
     Controller for the app home page.
     """
 
+    sensor_selection = SelectInput(
+        # display_text='Select precipitation product:',
+        name='sensor_selection',
+        multiple=False,
+        options=[('Landsat 8', 'lc8'),
+                 ('Sentinel-2', 's2')],
+        initial=['Landsat 8'],
+        select2_options={'placeholder': 'Select a sensor',
+                         'allowClear': False}
+    )
+
     product_selection = SelectInput(
         # display_text='Select precipitation product:',
         name='product_selection',
         multiple=False,
-        options=[('Trophic State Index', 'tsi'),
-                 ('Chlorophyll-a', 'chla'),
-                 ('Secchi Depth', 'sd')],
-        initial=['Trophic State Index'],
+        options=[('Rrs', 'rrs'),
+                 ('Secchi Depth', 'sd'),
+                 ('Trophic State Index', 'tsi'),
+                 ('Chlorophyll-a', 'chla')],
+        initial=['Rrs'],
         select2_options={'placeholder': 'Select a product',
                          'allowClear': False}
     )
 
-    update_button = Button(
-        display_text='Update Map',
-        name='update-button',
-        icon='glyphicon glyphicon-refresh',
-        style='success',
+    download_button = Button(
+        display_text='Download Region',
+        name='download-button',
+        icon='glyphicon glyphicon-cloud-download',
+        style='primary',
     )
 
     timeseries_button = Button(
@@ -43,7 +55,7 @@ def home(request):
         format='yyyy-mm-dd',
         start_view='decade',
         today_button=True,
-        initial='2015-08-03'
+        initial='2015-08-01'
     )
 
     time_end = DatePicker(
@@ -53,7 +65,7 @@ def home(request):
         format='yyyy-mm-dd',
         start_view='decade',
         today_button=True,
-        initial='2015-08-05'
+        initial='2015-09-01'
     )
 
     # result = myProcess(time_start['initial'],time_end['initial']).getChlMap()
@@ -66,8 +78,9 @@ def home(request):
     context = {
         # 'chla_mapid': mapid,
         # 'chla_token': token,
+        'sensor_selection':sensor_selection,
         'product_selection': product_selection,
-        'update_button': update_button,
+        'download_button': download_button,
         'timeseries_button': timeseries_button,
         'time_start': time_start,
         'time_end': time_end,

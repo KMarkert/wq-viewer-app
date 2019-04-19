@@ -29,6 +29,21 @@ class WqViewer(TethysAppBase):
                 url='wq-viewer',
                 controller='wq_viewer.controllers.home'
             ),
+            UrlMap(
+                name='get_map',
+                url='wq-viewer/get_map',
+                controller='wq_viewer.ajax_controllers.get_map'
+            ),
+            UrlMap(
+                name='get_timeseries',
+                url='wq-viewer/get_timeseries',
+                controller='wq_viewer.ajax_controllers.get_timeseries'
+            ),
+            UrlMap(
+                name='get_download',
+                url='wq-viewer/get_download',
+                controller='wq_viewer.ajax_controllers.get_download'
+            ),
         )
 
         return url_maps
