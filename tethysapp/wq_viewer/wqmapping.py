@@ -4,6 +4,8 @@ import math
 from ee.ee_exception import EEException
 import datetime
 import pandas as pd
+import random
+import string
 
 try:
     ee.Initialize()
@@ -380,6 +382,17 @@ class waterquality(object):
             eeGeom = ee.Geometry.Point(coords[0]).buffer(1000)
             # ts = coords[0]
 
-        img = self.data[product].mean().clip(eeGeom).getDownloadURL({'crs':'EPSG:4326','scale':self.zoomLvl[scale],'region':eeGeom})
+        tempName = ''.join(random.SystemRandom().choice(
+            string.ascii_letters) for _ in range(8))
+
+        outName = 'wqviewer_{}'.format(tempName).upper()
+
+        outCoords = eeGeom.bounds().getInfo()['coordinates']
+
+        img = self.data[product].mean().clip(eeGeom).getDownloadURL({'name':outName,
+                                                                     'crs':'EPSG:4326',
+                                                                     'scale':self.zoomLvl[scale],
+                                                                     'region':outCoords
+                                                                     })
 
         return img
