@@ -22,7 +22,18 @@
 		-moz-border-radius: 50%;
 	perspective: 780px;
   z-index: 10;
+  animation: cssload-rotate 30s linear infinite;
+    -o-animation: cssload-rotate 30s linear infinite;
+    -ms-animation: cssload-rotate 30s linear infinite;
+    -webkit-animation: cssload-rotate 30s linear infinite;
+    -moz-animation: cssload-rotate 30s linear infinite;
 }
+
+@-webkit-keyframes cssload-rotate {
+    from {-webkit-transform: rotate(0deg);}
+    to {-webkit-transform: rotate(360deg);}
+}
+
 
 .cssload-inner {
 	position: absolute;
@@ -39,6 +50,7 @@
 		-webkit-border-radius: 50%;
 		-moz-border-radius: 50%;
 }
+
 
 .cssload-inner.cssload-one {
 	left: 0%;
