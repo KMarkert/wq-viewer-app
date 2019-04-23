@@ -1,5 +1,6 @@
 #inner-app-content {
     padding: 0;
+    overflow: hidden;
 }
 
 #app-content, #inner-app-content, #map {
@@ -22,11 +23,11 @@
 		-moz-border-radius: 50%;
 	perspective: 780px;
   z-index: 10;
-  animation: cssload-rotate 30s linear infinite;
-    -o-animation: cssload-rotate 30s linear infinite;
-    -ms-animation: cssload-rotate 30s linear infinite;
-    -webkit-animation: cssload-rotate 30s linear infinite;
-    -moz-animation: cssload-rotate 30s linear infinite;
+  animation: cssload-rotate 60s linear infinite;
+    -o-animation: cssload-rotate 60s linear infinite;
+    -ms-animation: cssload-rotate 60s linear infinite;
+    -webkit-animation: cssload-rotate 60s linear infinite;
+    -moz-animation: cssload-rotate 60s linear infinite;
 }
 
 @-webkit-keyframes cssload-rotate {
