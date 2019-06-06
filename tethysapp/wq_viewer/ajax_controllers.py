@@ -1,7 +1,8 @@
+from __future__ import absolute_import
 import json
 from django.http import JsonResponse
 
-import wqmapping as wq
+from . import wqmapping as wq
 
 
 def get_map(request):
@@ -37,7 +38,7 @@ def get_timeseries(request):
             time_end = info.get('end_time')
             product = info.get('product')
             scale = int(info.get('scale'))
-            coords = list(info.get('coords').encode('UTF-8').strip(' ').strip('[').strip(']').split(','))
+            coords = list(info.get('coords').strip(' ').strip('[').strip(']').split(','))
             coords = [float(x.strip('[').strip(']')) for x in coords]
 
             inCoords = [[coords[i],coords[i+1]] for i in range(0,len(coords),2)]
@@ -64,7 +65,7 @@ def get_download(request):
             time_end = info.get('end_time')
             product = info.get('product')
             scale = int(info.get('scale'))
-            coords = list(info.get('coords').encode('UTF-8').strip(' ').strip('[').strip(']').split(','))
+            coords = list(info.get('coords').strip(' ').strip('[').strip(']').split(','))
             coords = [float(x.strip('[').strip(']')) for x in coords]
 
             inCoords = [[coords[i],coords[i+1]] for i in range(0,len(coords),2)]
