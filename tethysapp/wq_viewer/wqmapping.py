@@ -259,7 +259,7 @@ def l8Correction(img):
     # tile geometry
     footprint = img.geometry()
     # cloud mask
-    scsmask = ee.Algorithms.Landsat.simpleCloudScore(ee.Algorithms.Landsat.TOA(img)).select('cloud').lt(10)
+    scsmask = ee.Algorithms.Landsat.simpleCloudScore(ee.Algorithms.Landsat.TOA(img)).select('cloud').lt(5)
     qamask = extractBits(img.select('BQA'),4,4,'clouds').eq(0) # from qa band
     cloudmask = scsmask.And(qamask)
     # water mask
@@ -272,11 +272,11 @@ def secchiDepth(img):
     lnMOSD_coll = (ee.Image(1.4856).multiply(blueRed_coll)).add(ee.Image(0.2734))  # R2 = 0.8748 with Anthony's in-situ data
     MOSD_coll = ee.Image(10).pow(lnMOSD_coll)
     sd_coll = (ee.Image(0.1777).multiply(MOSD_coll)).add(ee.Image(1.0813))
-    return sd_coll.updateMask(sd_coll.lt(10).set('system:time_start', img.date().millis()))
+    return sd_coll.rename('SecchiDepth').updateMask(sd_coll.lt(10)).set('system:time_start', img.get('system:time_start'))
 
 def trophicStateindex(img):
     tsi_coll = ee.Image(60).subtract(ee.Image(14.41).multiply(img.log()))
-    return (tsi_coll.updateMask(tsi_coll.lt(200)).set('system:time_start', img.date().millis()))
+    return (tsi_coll.rename('TrophicIndex').updateMask(tsi_coll.lt(200)).set('system:time_start', img.get('system:time_start')))
 
 
 # wrapper class for clean api to get water quality data from different sensors
@@ -350,14 +350,15 @@ class waterquality(object):
             # ts = coords[0]
 
         units = dict(rrs = 'Reflectance [%]',
-                     sd = 'Sechi Depth [m]',
+                     sd = 'Secchi Depth [m]',
                      tsi = 'Trophic State Index [-]')
 
         ts = self.data[product].getRegion(eeGeom,self.zoomLvl[scale]).getInfo()
-        ts
+        # print(ee.Image(self.data[product].first()).propertyNames().getInfo())
 
         df = pd.DataFrame(ts[1:])
         df.columns = ts[0]
+        # print(df)
 
         result = df[ts[0][4:]].groupby(by=df['time']).mean()
 
